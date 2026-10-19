@@ -1,0 +1,139 @@
+Introduction: Default CENSOR reconstruction experiment
+optim: GAN_free
+geiping: true
+yin: false
+model: ConvNet
+dataset: CIFAR10
+trained_model: false
+model_checkpoint_path: null
+model_checkpoint_strict: true
+epochs: 120
+num_images: 1
+num_exp: 1
+target_id: 0
+target_indices: null
+restarts: 1
+cost_fn: sim
+indices: def
+weights: equal
+optimizer: adam
+signed: true
+init: randn
+save_image: false
+image_path: /mnt/sda/rainbow/GIADefense/images/
+model_path: /mnt/sda/rainbow/GIADefense/models/
+table_path: /mnt/sda/rainbow/GIADefense/tables/
+result_path: /mnt/sda/rainbow/GIADefense/results/
+data_path: /mnt/sda/rainbow/GIADefense/data
+exp_name: default_censor_experiment
+output_dir: /mnt/sda/rainbow/GIADefense/results/
+total_variation: 0.0001
+bn_stat: 0.0001
+group_lazy: 0.0001
+image_norm: 0.0001
+z_norm: 0.0
+generative_model: ''
+gen_dataset: I128
+biggan_model: biggan-deep-256
+biggan_cache_dir: /tmp/models/biggan
+generator_checkpoint_path: null
+giml: false
+gias: false
+gifd: false
+ggl: false
+lr: 0.1
+gias_lr: 0.01
+gias_iterations: 0
+max_iterations: 1000
+accumulation: 0
+seed: 1234
+set_seed: 1234
+attack_seed: 1234
+batch_size: 4
+local_lr: 0.0001
+checkpoint_path: ''
+gan: stylegan2
+train_epochs: 1
+accuracy_eval_batches: 25
+post_attack_train_batches: 0
+attack_validity:
+  enabled: true
+  max_mse: 0.25
+  min_psnr: 6.0
+  require_finite: true
+defense_min_relative_change: 1.0e-08
+fail_on_defense_noop: false
+utility_update_lr: 0.001
+save_model_checkpoint: false
+our_num_tries: 20
+lr_same_pace: false
+ckpt: null
+steps: []
+lr_io: []
+start_layer: 0
+end_layer: 0
+project: false
+do_project_gen_out: false
+do_project_noises: false
+do_project_latent: false
+max_radius_gen_out: []
+max_radius_noises: []
+max_radius_latent: []
+KLD: 0.1
+cma_budget: 800
+num_sample: 50
+defense_method: null
+defense_setting:
+  noise: null
+  clipping: 4
+  compression: 20
+  representation: null
+  orthogonal: null
+  gmm:
+    tangent_rank: 4
+    fd_epsilon: 0.03
+    virtual_lr: 0.0001
+    min_descent_cosine: 0.05
+    utility_tolerance: 0.02
+    norm_scales:
+    - 1.0
+    - 0.75
+    - 0.5
+    - 0.25
+    seed: 1234
+    contraction_steps: 20
+    max_residual_tangent_fraction: 1.0
+    bicone_enabled: false
+    bicone_safe_cosine: 0.7
+    bicone_candidates: 16
+    bicone_temperature: 0.2
+    robust_reversible_space: false
+    fd_scales:
+    - 0.5
+    - 1.0
+    - 2.0
+    matchability_weight: 5.0
+  gmm_budget:
+    tangent_rank: 2
+    fd_epsilon: 0.03
+    fd_scales:
+    - 0.5
+    - 1.5
+    virtual_lr: 0.0001
+    utility_budget: 0.02
+    risk_utility_lambda: 1.0
+    boundary_min_alpha: 0.8
+    candidate_count: 4
+    utility_view_count: 3
+    utility_noise_std: 0.01
+    norm_jitter: 0.1
+    seed: 1234
+
+  tiger:
+    num_probes: 6
+    probe_epsilon: 0.001
+    tau: 0.95
+    scales: [4, 8, 16]
+    eig_eps: 1.0e-10
+    eig_rtol: 1.0e-5
+    seed: 1234
