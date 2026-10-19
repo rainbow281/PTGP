@@ -1,0 +1,9 @@
+defense_setting:
+  spectra:
+    virtual_lr: 0.0001
+    v47_enabled: true
+    v47_bit_budget: 128
+    v47_subspace_dim: 32
+    cpfr_enabled: false
+    fail_on_weak_privacy: false
+    seed: 1234
