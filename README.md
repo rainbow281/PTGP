@@ -1,6 +1,6 @@
 # PTGP: Principal Task Gradient Projection
 
-**Task-guided gradient inversion defense for federated learning**
+**Less Is More: Defending Against Gradient Inversion via Principal Task-Gradient Projection**
 
 PTGP protects shared client gradients by retaining the dominant task-relevant update direction rather than applying large, indiscriminate gradient perturbations. A class-balanced reference set supplies task-gradient probes; their principal direction is extracted and used to project client gradients before aggregation. The result is still a gradient with the same parameter structure, compatible with a standard FedAvg update interface.
 
