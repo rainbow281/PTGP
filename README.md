@@ -62,24 +62,6 @@ These dependencies cover the core method; the five-attack evaluator and generato
 
 Thus the reference budgets are 2,000 images for CIFAR-10, 20,000 for CIFAR-100, 2,000 for labeled FFHQ, and **200,000 for imagenet**. Reference images are selected class-by-class without replacement, with a fixed random seed. The same reference set is used to compute 32 task-gradient probes; the final projection retains only the leading task direction. The number of reference images is distinct from the number of attack targets.
 
-**ImageNet data organization:**
-
-```text
-imagenet/
-├── train/
-│   ├── n01440764/
-│   ├── n01443537/
-│   └── ... (1,000 WNID class directories)
-└── val/
-    ├── n01440764/
-    ├── n01443537/
-    └── ... (evaluation only)
-```
-
-The validation split must **not** be used to construct the PTGP task direction or to train the classifier. In a single-round reconstruction evaluation, use held-out target images from the evaluation split, with no overlap with the reference set. The ImageNet class mappings must be consistent between splits.
-
-**Implementation:** `ptgp/data.py` returns `(train, train, val)` for ImageNet; `train.py` and `privacy_adapter.py` default to 200 reference images per class on all four datasets. ImageNet `val/` is reserved for evaluation. Full end-to-end attack reproduction still requires external datasets, checkpoints and matching evaluator settings.
-
 ## 5. Federated-training example
 
 `train.py` is a compact FedAvg driver, not an exact reproduction of every historical training configuration. Defaults: randomly initialized CIFAR-style ResNet-18, 100 clients, 10 sampled clients per round, one local epoch, batch size 64, SGD learning rate 0.1, Dirichlet concentration 0.5 and 2,000 rounds. It writes per-round loss/accuracy to `round_metrics.csv`.
@@ -122,17 +104,8 @@ The `--dataset` flag on the adapter is lowercase; the legacy evaluator uses iden
 
 ## 7. Scope, limitations and citation
 
-- Projection preserves a task-aligned update component but does **not** establish formal differential privacy or a universal guarantee against reconstruction.
 - Reference distribution, model state and probe configuration can influence both privacy and accuracy; the one-direction design may discard useful task updates.
 - This release does not contain datasets, weights, experimental outputs, or verified numerical reproductions of the paper tables.
 - The source bundle retains necessary GMM attack backend utilities; distinguish them from the final PTGP implementation when reusing or citing code.
 
 **Paper and citation:** add the final paper title, author list, venue/year and BibTeX entry after publication or as permitted by the review policy. Do not invent bibliographic metadata. For anonymous review, ensure repository ownership, commit history, embedded paths and external links comply with the venue's anonymity requirements.
-
-## Repository cleanup
-
-Historical dated experiment runs and obsolete comparison launchers were removed. Core PTGP, the attack backend, generator support, dataset utilities and tests remain. Some legacy backend identifiers and external data paths must be configured to reproduce paper-scale results.
-
-## Release identity
-
-The proposed defense method is **PTGP**. The evaluation interface and documentation use the same method identifier.
