@@ -29,7 +29,7 @@ Only **one direction** is retained. The released implementation uses no gradient
 | `ptgp/model.py` | CIFAR-style ResNet-18 model constructor |
 | `train.py` | Minimal FedAvg experiment: PTGP versus no defense |
 | `privacy_adapter.py` | Injects PTGP into the included legacy attack evaluator |
-| `run_rec.py`, `defense.py` | GMM/CENSOR attack and defense evaluation backend with a PTGP entry point |
+| `run_rec.py`, `defense.py` | CENSOR attack and defense evaluation backend with a PTGP entry point |
 | `inversefed/`, `dnnlib/`, `torch_utils/` | Supporting attack, generator and utility implementations |
 | `default_config.yml` | Legacy attack evaluator configuration |
 | `tools/` | Dataset preparation and validation helpers |
@@ -51,7 +51,7 @@ These dependencies cover the core method; the five-attack evaluator and generato
 
 ## 4. Dataset protocol
 
-**Required protocol for the paper:** use **200 class-balanced reference images per class** for every dataset. For imagenet, both classifier training and PTGP reference-gradient construction must use the official **`train/` split, not `val/`**. Keep evaluation images distinct from the reference images when reporting privacy results.
+**Required protocol for the paper:** use **200 class-balanced reference images per class**
 
 | Dataset | Classifier training | PTGP reference source | Evaluation source | Reference images per class |
 | --- | --- | --- | --- | ---: |
@@ -76,7 +76,7 @@ python train.py --dataset cifar10 --data-root /path/to/cifar-data \
   --method none --rounds 2 --output ./outputs/baseline_smoke
 ```
 
-For a longer run, change `--rounds 2` to the desired count, e.g. `--rounds 2000`. `--dataset` also accepts `cifar100`, `ffhq`, and `imagenet`, subject to the split requirements above. ImageNet and the full attack matrix can require substantial GPU time, memory and storage.
+For a longer run, change `--rounds 2` to the desired count, e.g. `--rounds 2000`. `--dataset` also accepts `cifar100`, `ffhq`, and `imagenet`, subject to the split requirements above.
 
 ## 6. Single-round gradient-inversion evaluation
 
@@ -98,14 +98,11 @@ python privacy_adapter.py \
   --set geiping=true
 ```
 
-The `--dataset` flag on the adapter is lowercase; the legacy evaluator uses identifiers such as `CIFAR10`, `CIFAR100`, `FFHQ64` and `IMAGENET_IO`. For ImageNet, verify that the legacy evaluator actually draws attack targets from `val/`, while reference probes use `train/`, and that target/reference samples do not overlap. The adapter does not automatically make every historical experiment script PTGP-aware.
-
 **Evaluation checklist:** hold fixed model initialization, attacked image IDs, batch size, preprocessing, attack iterations/restarts, generator checkpoints and label mapping across defenses. Evaluate the strongest relevant attack configurations rather than comparing unlike budgets. Report MSE and LPIPS (**higher is better for privacy**), PSNR and SSIM (**lower is better for privacy**), and classifier ACC (**higher is better for utility**). Specify LPIPS backbone(s), whether VGG/AlexNet values were averaged, aggregation level and standard deviation definition.
 
 ## 7. Scope, limitations and citation
 
 - Reference distribution, model state and probe configuration can influence both privacy and accuracy; the one-direction design may discard useful task updates.
 - This release does not contain datasets, weights, experimental outputs, or verified numerical reproductions of the paper tables.
-- The source bundle retains necessary GMM attack backend utilities; distinguish them from the final PTGP implementation when reusing or citing code.
 
 **Paper and citation:** add the final paper title, author list, venue/year and BibTeX entry after publication or as permitted by the review policy. Do not invent bibliographic metadata. For anonymous review, ensure repository ownership, commit history, embedded paths and external links comply with the venue's anonymity requirements.
